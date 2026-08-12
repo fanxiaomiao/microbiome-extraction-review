@@ -213,7 +213,7 @@
   <div class="reviewer-bar">
     <label for="reviewer-name">核对人</label>
     <input type="text" id="reviewer-name" placeholder="你的姓名/花名">
-    <button class="btn primary" onclick="openExport()">导出我的反馈</button>
+    <button class="btn primary" onclick="openExport()">提交我的反馈</button>
     <span class="progress-note" id="progress-note"></span>
   </div>
 
@@ -245,13 +245,15 @@
 <div class="export-modal-backdrop" id="export-backdrop">
   <div class="export-modal">
     <h3>我的反馈（JSON）</h3>
-    <p class="sub" style="margin:0 0 10px">复制下面内容发回给发起人，或点"下载 JSON 文件"保存后再发送。</p>
+    <p class="sub" style="margin:0 0 10px">推荐点"提交为 GitHub Issue"直接提交，会跳转到 GitHub 打开一个已经填好内容的新 Issue，登录后点一下"Submit new issue"就完成了，不用复制粘贴。没有 GitHub 账号的话可以下载文件或复制内容后另行发送。</p>
     <textarea id="export-text" readonly></textarea>
     <div class="row">
       <button class="btn" onclick="closeExport()">关闭</button>
       <button class="btn" onclick="downloadExport()">下载 JSON 文件</button>
-      <button class="btn primary" onclick="copyExport()">复制到剪贴板</button>
+      <button class="btn" onclick="copyExport()">复制到剪贴板</button>
+      <button class="btn primary" onclick="submitAsIssue()">提交为 GitHub Issue ↗</button>
     </div>
+    <div class="feedback-status" id="issue-fallback-note" style="display:none">反馈内容较长，已自动截断备注到每条 200 字再提交；完整内容请用"下载 JSON 文件"另行发送。</div>
   </div>
 </div>
 
@@ -486,6 +488,8 @@ function renderChipReviewedState() {
 }
 
 /* ---------- export ---------- */
+const REPO_URL = "https://github.com/fanxiaomiao/microbiome-extraction-review";
+
 function openExport() {
   const map = loadFeedback();
   const name = document.getElementById("reviewer-name").value.trim() || "(未填写姓名)";
@@ -497,7 +501,48 @@ function openExport() {
     feedback: Object.values(map),
   };
   document.getElementById("export-text").value = JSON.stringify(payload, null, 2);
+  document.getElementById("issue-fallback-note").style.display = "none";
   document.getElementById("export-backdrop").classList.add("open");
+}
+
+function submitAsIssue() {
+  const map = loadFeedback();
+  const entries = Object.values(map);
+  const name = document.getElementById("reviewer-name").value.trim();
+  if (!entries.length) { alert("还没有填写任何反馈，先切到具体记录填一下判定或备注。"); return; }
+  if (!name) { alert("请先在顶部填写核对人姓名，再提交。"); return; }
+
+  const today = new Date().toISOString().slice(0, 10);
+  const title = `核对反馈 - ${name} - ${entries.length}/${RECORDS.length} 条 - ${today}`;
+  const fallbackNote = document.getElementById("issue-fallback-note");
+
+  function buildBody(feedbackList, truncated) {
+    const jsonStr = JSON.stringify({
+      reviewer: name, date: today, total_records: RECORDS.length,
+      reviewed_count: entries.length, feedback: feedbackList,
+    }, null, 2);
+    let body = `**核对人**：${name}\n**日期**：${today}\n**已核对**：${entries.length} / ${RECORDS.length} 条\n`;
+    if (truncated) body += `\n> 反馈内容较长，备注已截断到每条 200 字；完整内容请另发送本页导出的 JSON 文件。\n`;
+    body += `\n\`\`\`json\n${jsonStr}\n\`\`\`\n`;
+    return body;
+  }
+
+  let body = buildBody(entries, false);
+  let url = `${REPO_URL}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}&labels=feedback`;
+
+  if (url.length > 7500) {
+    const compact = entries.map(e => ({
+      kind: e.kind, id: e.id, title: e.title, verdict: e.verdict,
+      notes: (e.notes || "").slice(0, 200),
+    }));
+    body = buildBody(compact, true);
+    url = `${REPO_URL}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}&labels=feedback`;
+    fallbackNote.style.display = "block";
+  } else {
+    fallbackNote.style.display = "none";
+  }
+
+  window.open(url, "_blank", "noopener");
 }
 function closeExport() {
   document.getElementById("export-backdrop").classList.remove("open");
