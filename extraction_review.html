@@ -135,11 +135,87 @@
   .analysis-step .stage { font-family: ui-monospace, monospace; font-size: 11px; color: var(--faint); flex: none; width: 90px; }
 
   footer { margin-top: 30px; font-size: 12px; color: var(--faint); font-family: ui-monospace, monospace; }
+
+  /* reviewer bar */
+  .reviewer-bar {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    border: 1px solid var(--line); background: var(--surface); border-radius: 10px;
+    padding: 10px 14px; margin-bottom: 16px; font-size: 13px;
+  }
+  .reviewer-bar label { color: var(--muted); font-size: 12.5px; }
+  .reviewer-bar input[type="text"] {
+    border: 1px solid var(--line); border-radius: 6px; padding: 6px 9px; font-size: 13px;
+    background: var(--paper); color: var(--ink); width: 160px; font-family: inherit;
+  }
+  .reviewer-bar input[type="text"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .progress-note { color: var(--faint); font-size: 12.5px; margin-left: auto; }
+  .btn {
+    border: 1px solid var(--line); background: var(--surface-2); color: var(--ink);
+    border-radius: 6px; padding: 6px 12px; font-size: 12.5px; cursor: pointer; font-family: inherit;
+    transition: border-color 0.1s, background 0.1s;
+  }
+  .btn:hover { border-color: var(--line-strong); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: white; font-weight: 600; }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .chip.reviewed { position: relative; }
+  .chip.reviewed::after {
+    content: ""; position: absolute; top: -2px; right: -2px; width: 8px; height: 8px;
+    border-radius: 50%; background: var(--accent); border: 1.5px solid var(--paper);
+  }
+
+  /* feedback panel */
+  .feedback-panel {
+    border: 1px solid var(--line); background: var(--surface); border-radius: 10px;
+    padding: 16px 20px; margin-top: 16px;
+  }
+  .feedback-panel h3 {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent);
+    font-family: ui-monospace, monospace; font-weight: 700; margin: 0 0 12px;
+  }
+  .verdict-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .verdict-opt {
+    border: 1px solid var(--line); border-radius: 100px; padding: 6px 13px; font-size: 12.5px;
+    cursor: pointer; background: var(--surface); color: var(--muted); user-select: none;
+  }
+  .verdict-opt input { display: none; }
+  .verdict-opt.checked { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+  .feedback-panel textarea {
+    width: 100%; min-height: 80px; border: 1px solid var(--line); border-radius: 8px;
+    padding: 10px 12px; font-size: 13.5px; font-family: inherit; background: var(--paper);
+    color: var(--ink); resize: vertical;
+  }
+  .feedback-panel textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .feedback-status { font-size: 12px; color: var(--faint); margin-top: 8px; }
+  .feedback-status.saved { color: var(--accent); }
+
+  .export-modal-backdrop {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 50;
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .export-modal-backdrop.open { display: flex; }
+  .export-modal {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 20px 22px; max-width: 640px; width: 100%; max-height: 80vh; display: flex; flex-direction: column;
+  }
+  .export-modal h3 { margin: 0 0 10px; font-size: 15px; }
+  .export-modal textarea {
+    flex: 1; min-height: 260px; font-family: ui-monospace, monospace; font-size: 11.5px;
+    border: 1px solid var(--line); border-radius: 8px; padding: 10px; background: var(--paper); color: var(--ink);
+  }
+  .export-modal .row { display: flex; gap: 8px; margin-top: 12px; justify-content: flex-end; }
 </style>
 
 <div class="shell">
   <h1>抽取结果人工核对</h1>
-  <p class="sub">左边是原文全文（论文 PMC 全文 / 专利说明书），右边是新 prompt 抽取出的结构化结果 —— 逐条对照检查有没有漏抽、抽错、或者编造原文没有的内容。10 篇文献 + 10 件专利，来自随机抽样，全文截断到 35000 字。</p>
+  <p class="sub">左边是原文全文（论文 PMC 全文 / 专利说明书），右边是新 prompt 抽取出的结构化结果 —— 逐条对照检查有没有漏抽、抽错、或者编造原文没有的内容。10 篇文献 + 10 件专利，来自随机抽样，全文截断到 35000 字。核对完每一条后，在下方填写反馈，最后点"导出我的反馈"把结果发回。</p>
+
+  <div class="reviewer-bar">
+    <label for="reviewer-name">核对人</label>
+    <input type="text" id="reviewer-name" placeholder="你的姓名/花名">
+    <button class="btn primary" onclick="openExport()">导出我的反馈</button>
+    <span class="progress-note" id="progress-note"></span>
+  </div>
 
   <div class="switcher" id="switcher"></div>
 
@@ -156,7 +232,27 @@
     </div>
   </div>
 
-  <footer>抽取模型：claude-opus-4-8 · max_tokens 15000 · 全文截断 20000 字 · 未写入正式产线输出文件</footer>
+  <div class="feedback-panel">
+    <h3>本条反馈</h3>
+    <div class="verdict-row" id="verdict-row"></div>
+    <textarea id="feedback-notes" placeholder="具体说明：哪里漏抽了、抽错了、编造了什么，或者其他问题（选填，但建议填写）"></textarea>
+    <div class="feedback-status" id="feedback-status">尚未填写</div>
+  </div>
+
+  <footer>抽取模型：claude-opus-4-8 · max_tokens 15000 · 全文截断 35000 字 · 未写入正式产线输出文件</footer>
+</div>
+
+<div class="export-modal-backdrop" id="export-backdrop">
+  <div class="export-modal">
+    <h3>我的反馈（JSON）</h3>
+    <p class="sub" style="margin:0 0 10px">复制下面内容发回给发起人，或点"下载 JSON 文件"保存后再发送。</p>
+    <textarea id="export-text" readonly></textarea>
+    <div class="row">
+      <button class="btn" onclick="closeExport()">关闭</button>
+      <button class="btn" onclick="downloadExport()">下载 JSON 文件</button>
+      <button class="btn primary" onclick="copyExport()">复制到剪贴板</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -295,6 +391,138 @@ function renderExtraction(ext) {
 
 let current = 0;
 
+/* ---------- feedback storage ---------- */
+const FEEDBACK_KEY = "mb_review_feedback_v1";
+const NAME_KEY = "mb_review_name_v1";
+const VERDICTS = [
+  ["ok", "无问题"],
+  ["missing", "有漏抽"],
+  ["wrong", "有抽错"],
+  ["fabricated", "有编造"],
+  ["other", "其他问题"],
+];
+
+function recordKey(r) { return r.kind + "_" + r.id; }
+
+function loadFeedback() {
+  try { return JSON.parse(localStorage.getItem(FEEDBACK_KEY) || "{}"); }
+  catch (e) { return {}; }
+}
+function saveFeedbackMap(map) {
+  localStorage.setItem(FEEDBACK_KEY, JSON.stringify(map));
+}
+function saveCurrentFeedback(verdict, notes) {
+  const r = RECORDS[current];
+  const map = loadFeedback();
+  if (!verdict && !notes) {
+    delete map[recordKey(r)];
+  } else {
+    map[recordKey(r)] = { kind: r.kind, id: r.id, title: r.title, verdict, notes, updated_at: new Date().toISOString() };
+  }
+  saveFeedbackMap(map);
+  renderProgress();
+  renderChipReviewedState();
+}
+
+function renderVerdictRow(saved) {
+  const row = document.getElementById("verdict-row");
+  row.innerHTML = VERDICTS.map(([val, label]) => `
+    <label class="verdict-opt ${saved && saved.verdict === val ? 'checked' : ''}" data-val="${val}">
+      <input type="radio" name="verdict" value="${val}" ${saved && saved.verdict === val ? 'checked' : ''}>
+      ${esc(label)}
+    </label>`).join("");
+  row.querySelectorAll(".verdict-opt").forEach(opt => {
+    opt.addEventListener("click", () => {
+      row.querySelectorAll(".verdict-opt").forEach(o => o.classList.remove("checked"));
+      opt.classList.add("checked");
+      onFeedbackChange();
+    });
+  });
+}
+
+function onFeedbackChange() {
+  const checked = document.querySelector('.verdict-opt.checked');
+  const verdict = checked ? checked.dataset.val : null;
+  const notes = document.getElementById("feedback-notes").value.trim();
+  saveCurrentFeedback(verdict, notes);
+  const status = document.getElementById("feedback-status");
+  if (verdict || notes) {
+    status.textContent = "已保存到本机（点右上角“导出我的反馈”统一发回）";
+    status.classList.add("saved");
+  } else {
+    status.textContent = "尚未填写";
+    status.classList.remove("saved");
+  }
+}
+
+function renderFeedbackPanel() {
+  const r = RECORDS[current];
+  const map = loadFeedback();
+  const saved = map[recordKey(r)];
+  renderVerdictRow(saved);
+  document.getElementById("feedback-notes").value = saved ? (saved.notes || "") : "";
+  const status = document.getElementById("feedback-status");
+  if (saved && (saved.verdict || saved.notes)) {
+    status.textContent = "已保存到本机（点右上角“导出我的反馈”统一发回）";
+    status.classList.add("saved");
+  } else {
+    status.textContent = "尚未填写";
+    status.classList.remove("saved");
+  }
+}
+
+function renderProgress() {
+  const map = loadFeedback();
+  const done = Object.keys(map).length;
+  document.getElementById("progress-note").textContent = `已核对 ${done} / ${RECORDS.length} 条`;
+}
+
+function renderChipReviewedState() {
+  const map = loadFeedback();
+  document.querySelectorAll(".chip").forEach(c => {
+    const r = RECORDS[Number(c.dataset.i)];
+    c.classList.toggle("reviewed", !!map[recordKey(r)]);
+  });
+}
+
+/* ---------- export ---------- */
+function openExport() {
+  const map = loadFeedback();
+  const name = document.getElementById("reviewer-name").value.trim() || "(未填写姓名)";
+  const payload = {
+    reviewer: name,
+    exported_at: new Date().toISOString(),
+    total_records: RECORDS.length,
+    reviewed_count: Object.keys(map).length,
+    feedback: Object.values(map),
+  };
+  document.getElementById("export-text").value = JSON.stringify(payload, null, 2);
+  document.getElementById("export-backdrop").classList.add("open");
+}
+function closeExport() {
+  document.getElementById("export-backdrop").classList.remove("open");
+}
+function downloadExport() {
+  const name = (document.getElementById("reviewer-name").value.trim() || "reviewer").replace(/[^a-zA-Z0-9_\-一-龥]/g, "_");
+  const blob = new Blob([document.getElementById("export-text").value], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `feedback_${name}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function copyExport() {
+  const ta = document.getElementById("export-text");
+  ta.select();
+  navigator.clipboard.writeText(ta.value).then(() => {
+    const btn = event.target;
+    const old = btn.textContent;
+    btn.textContent = "已复制";
+    setTimeout(() => { btn.textContent = old; }, 1200);
+  }).catch(() => {});
+}
+
+/* ---------- switcher / record ---------- */
 function renderSwitcher() {
   const sw = document.getElementById("switcher");
   let html = '<span class="group-label">文献</span>';
@@ -308,6 +536,7 @@ function renderSwitcher() {
     if (r.kind === "patent") { tCount++; html += `<button class="chip" data-i="${i}" onclick="selectRecord(${i})">T${tCount}</button>`; }
   });
   sw.innerHTML = html;
+  renderChipReviewedState();
 }
 
 function selectRecord(i) {
@@ -328,8 +557,19 @@ function selectRecord(i) {
   document.getElementById("extraction").innerHTML = renderExtraction(r.extraction);
   document.getElementById("ext-meta").textContent = r.id;
   document.querySelector(".pane-body").scrollTop = 0;
+  renderFeedbackPanel();
 }
+
+document.getElementById("feedback-notes").addEventListener("input", onFeedbackChange);
+document.getElementById("reviewer-name").addEventListener("input", () => {
+  localStorage.setItem(NAME_KEY, document.getElementById("reviewer-name").value);
+});
+document.getElementById("reviewer-name").value = localStorage.getItem(NAME_KEY) || "";
+document.getElementById("export-backdrop").addEventListener("click", (e) => {
+  if (e.target.id === "export-backdrop") closeExport();
+});
 
 renderSwitcher();
 selectRecord(0);
+renderProgress();
 </script>
