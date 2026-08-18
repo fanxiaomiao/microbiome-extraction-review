@@ -1,0 +1,1254 @@
+<title>湿实验干实验抽取示例</title>
+<style>
+:root {
+  --bg: #f4f6f5;
+  --surface: #ffffff;
+  --surface-2: #eef2f0;
+  --border: #dbe3df;
+  --text: #16211c;
+  --text-dim: #55645d;
+  --text-faint: #8b988f;
+  --accent-paper: #0f7a6e;
+  --accent-paper-bg: #e3f3ef;
+  --accent-patent: #a6590f;
+  --accent-patent-bg: #faedde;
+  --accent-vitro: #2563a8;
+  --accent-vivo: #7c3aed;
+  --accent-dry: #0f7a6e;
+  --code-bg: #eef1ef;
+  --shadow: 0 1px 2px rgba(20,30,25,0.04), 0 4px 16px rgba(20,30,25,0.04);
+  --cat-probiotic: #1f8a5f;
+  --cat-candidate: #2f9e8f;
+  --cat-pathogenic: #b3423a;
+  --cat-opportunistic: #c07a1e;
+  --cat-commensal: #3b6fb0;
+  --cat-unclear: #7c8680;
+  --dir-up: #b3423a;
+  --dir-down: #2f7a4f;
+  --dir-reg: #7c5cbf;
+  --dir-none: #8b988f;
+  --dir-unclear: #a68a3e;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101512;
+    --surface: #171d19;
+    --surface-2: #1e2521;
+    --border: #2b332e;
+    --text: #e7ede9;
+    --text-dim: #a3b0a8;
+    --text-faint: #6d7a72;
+    --accent-paper: #4fcbb8;
+    --accent-paper-bg: #17332e;
+    --accent-patent: #e0a463;
+    --accent-patent-bg: #362715;
+    --accent-vitro: #6ca8e6;
+    --accent-vivo: #b79bef;
+    --accent-dry: #4fcbb8;
+    --code-bg: #1c2420;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.25);
+    --cat-probiotic: #4fb87f;
+    --cat-candidate: #5cc9ba;
+    --cat-pathogenic: #e07a72;
+    --cat-opportunistic: #e0a463;
+    --cat-commensal: #7fa8e0;
+    --cat-unclear: #8f9a94;
+    --dir-up: #e07a72;
+    --dir-down: #6fc492;
+    --dir-reg: #b79bef;
+    --dir-none: #8f9a94;
+    --dir-unclear: #e0c164;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101512;
+  --surface: #171d19;
+  --surface-2: #1e2521;
+  --border: #2b332e;
+  --text: #e7ede9;
+  --text-dim: #a3b0a8;
+  --text-faint: #6d7a72;
+  --accent-paper: #4fcbb8;
+  --accent-paper-bg: #17332e;
+  --accent-patent: #e0a463;
+  --accent-patent-bg: #362715;
+  --accent-vitro: #6ca8e6;
+  --accent-vivo: #b79bef;
+  --accent-dry: #4fcbb8;
+  --code-bg: #1c2420;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.25);
+  --cat-probiotic: #4fb87f;
+  --cat-candidate: #5cc9ba;
+  --cat-pathogenic: #e07a72;
+  --cat-opportunistic: #e0a463;
+  --cat-commensal: #7fa8e0;
+  --cat-unclear: #8f9a94;
+  --dir-up: #e07a72;
+  --dir-down: #6fc492;
+  --dir-reg: #b79bef;
+  --dir-none: #8f9a94;
+  --dir-unclear: #e0c164;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  line-height: 1.55;
+}
+.page { max-width: 920px; margin: 0 auto; padding: 48px 24px 80px; }
+
+.hero { padding-bottom: 32px; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
+.eyebrow {
+  font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--accent-paper); font-weight: 600; margin: 0 0 12px;
+}
+.hero h1 {
+  font-family: Georgia, "Noto Serif SC", ui-serif, serif;
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 600;
+  margin: 0 0 14px;
+  text-wrap: balance;
+  letter-spacing: -0.01em;
+}
+.lede { color: var(--text-dim); font-size: 15.5px; max-width: 70ch; margin: 0 0 24px; }
+.lede code { background: var(--code-bg); padding: 1px 6px; border-radius: 4px; font-size: 0.9em; }
+
+.stat-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.stat {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 18px; box-shadow: var(--shadow); min-width: 150px;
+}
+.stat-num {
+  display: block; font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-variant-numeric: tabular-nums; font-size: 20px; font-weight: 600; color: var(--text);
+}
+.stat-label { display: block; font-size: 12px; color: var(--text-faint); margin-top: 2px; }
+
+.toc {
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px;
+  padding: 16px 20px; margin-bottom: 40px;
+}
+.toc-title { font-size: 12px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+.toc-grid { display: flex; flex-direction: column; gap: 6px; }
+.toc-item {
+  color: var(--text-dim); text-decoration: none; font-size: 13.5px;
+  display: flex; align-items: center; gap: 8px;
+}
+.toc-item:hover { color: var(--text); }
+.toc-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.dot-paper { background: var(--accent-paper); }
+.dot-patent { background: var(--accent-patent); }
+
+.records { display: flex; flex-direction: column; gap: 28px; }
+
+.record {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  padding: 24px 26px 22px; box-shadow: var(--shadow); scroll-margin-top: 20px;
+}
+.record-head-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.badge {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em; padding: 3px 9px;
+  border-radius: 999px;
+}
+.badge-paper { background: var(--accent-paper-bg); color: var(--accent-paper); }
+.badge-patent { background: var(--accent-patent-bg); color: var(--accent-patent); }
+.ident {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px;
+  color: var(--text-faint);
+}
+.atype {
+  font-size: 11.5px; color: var(--text-faint); border: 1px solid var(--border);
+  border-radius: 6px; padding: 1px 7px;
+}
+.record-title {
+  font-family: Georgia, "Noto Serif SC", ui-serif, serif;
+  font-size: 18.5px; font-weight: 600; margin: 0 0 12px; line-height: 1.4;
+  text-wrap: balance;
+}
+.pill-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.pill { font-size: 12px; padding: 3px 10px; border-radius: 999px; font-weight: 600; border: 1px solid transparent; }
+.pill-vitro { background: color-mix(in srgb, var(--accent-vitro) 14%, transparent); color: var(--accent-vitro); }
+.pill-vivo { background: color-mix(in srgb, var(--accent-vivo) 14%, transparent); color: var(--accent-vivo); }
+.pill-dry { background: color-mix(in srgb, var(--accent-dry) 14%, transparent); color: var(--accent-dry); }
+
+.field { display: flex; gap: 10px; padding: 5px 0; font-size: 13.5px; border-bottom: 1px dashed var(--border); }
+.field:last-child { border-bottom: none; }
+.field-label { flex: 0 0 108px; color: var(--text-faint); font-size: 12.5px; padding-top: 1px; }
+.field-value { color: var(--text); flex: 1; }
+.field-chips { align-items: flex-start; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 5px; }
+.chip {
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px;
+  padding: 2px 8px; font-size: 12px; color: var(--text-dim);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+.field-chips + .field-chips { margin-top: 2px; }
+
+.microbe-chip {
+  font-size: 12px; padding: 2px 9px; border-radius: 999px; font-weight: 600;
+  border: 1px solid transparent;
+}
+.cat-probiotic { background: color-mix(in srgb, var(--cat-probiotic) 15%, transparent); color: var(--cat-probiotic); }
+.cat-candidate { background: color-mix(in srgb, var(--cat-candidate) 15%, transparent); color: var(--cat-candidate); }
+.cat-pathogenic { background: color-mix(in srgb, var(--cat-pathogenic) 15%, transparent); color: var(--cat-pathogenic); }
+.cat-opportunistic { background: color-mix(in srgb, var(--cat-opportunistic) 15%, transparent); color: var(--cat-opportunistic); }
+.cat-commensal { background: color-mix(in srgb, var(--cat-commensal) 15%, transparent); color: var(--cat-commensal); }
+.cat-unclear { background: var(--surface-2); color: var(--text-faint); }
+.more-chip { background: var(--surface-2); color: var(--text-faint); }
+
+.record-body { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 16px; }
+@media (max-width: 720px) { .record-body { grid-template-columns: 1fr; } }
+.col-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); margin: 0 0 10px; }
+
+.subblock { margin-bottom: 16px; }
+.subblock:last-child { margin-bottom: 0; }
+.subblock h4 { font-size: 13.5px; margin: 0 0 8px; display: flex; align-items: center; gap: 8px; color: var(--text); }
+.tag { font-size: 10.5px; font-weight: 700; padding: 1px 7px; border-radius: 5px; text-transform: lowercase; letter-spacing: 0.02em; }
+.tag-vitro { background: color-mix(in srgb, var(--accent-vitro) 16%, transparent); color: var(--accent-vitro); }
+.tag-vivo { background: color-mix(in srgb, var(--accent-vivo) 16%, transparent); color: var(--accent-vivo); }
+.tag-dry { background: color-mix(in srgb, var(--accent-dry) 16%, transparent); color: var(--accent-dry); }
+.count-badge { font-size: 11px; color: var(--text-faint); font-weight: 400; }
+
+.empty-note { color: var(--text-faint); font-size: 13px; font-style: italic; margin: 0; }
+
+.steps-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
+.steps-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.steps-table th {
+  text-align: left; background: var(--surface-2); color: var(--text-faint);
+  font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em;
+  padding: 7px 10px; white-space: nowrap;
+}
+.steps-table td { padding: 6px 10px; border-top: 1px solid var(--border); vertical-align: top; }
+.stage-cell { color: var(--text-dim); white-space: nowrap; }
+.tool-name { font-family: ui-monospace, "SF Mono", Menlo, monospace; color: var(--text); }
+.kind-pill {
+  font-size: 10.5px; padding: 1px 7px; border-radius: 999px; white-space: nowrap;
+  background: var(--surface-2); color: var(--text-dim); border: 1px solid var(--border);
+}
+
+.findings-details { margin-top: 18px; border-top: 1px solid var(--border); padding-top: 12px; }
+.findings-details summary {
+  cursor: pointer; font-size: 12.5px; color: var(--text-faint); font-weight: 600;
+  list-style: none;
+}
+.findings-details summary::-webkit-details-marker { display: none; }
+.findings-details summary::before { content: "▸ "; }
+.findings-details[open] summary::before { content: "▾ "; }
+.findings { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+.finding { display: flex; gap: 10px; font-size: 13px; align-items: baseline; }
+.finding-dir {
+  flex: 0 0 auto; font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 999px;
+  white-space: nowrap;
+}
+.dir-up { background: color-mix(in srgb, var(--dir-up) 14%, transparent); color: var(--dir-up); }
+.dir-down { background: color-mix(in srgb, var(--dir-down) 14%, transparent); color: var(--dir-down); }
+.dir-reg { background: color-mix(in srgb, var(--dir-reg) 14%, transparent); color: var(--dir-reg); }
+.dir-none { background: var(--surface-2); color: var(--text-faint); }
+.dir-unclear { background: color-mix(in srgb, var(--dir-unclear) 14%, transparent); color: var(--dir-unclear); }
+.finding-body { color: var(--text-dim); }
+.finding-body strong { color: var(--text); font-weight: 600; }
+.finding-ev {
+  margin-left: 6px; font-size: 10.5px; color: var(--text-faint); border: 1px solid var(--border);
+  border-radius: 5px; padding: 0 5px;
+}
+
+.page-footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); }
+.page-footer p { font-size: 12.5px; color: var(--text-faint); max-width: 70ch; }
+.page-footer code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+</style>
+<div class="page">
+  <header class="hero">
+    <p class="eyebrow">100 篇文献 + 100 篇专利批量抽取测试 · IF&gt;10 语料</p>
+    <h1>体外 / 体内实验 与 生信分析 抽取结果示例</h1>
+    <p class="lede">从本轮测试批次中挑选出 5 篇文献、5 篇专利 —— 均为 <code>wet_experiments</code>（体外/体内实验）或 <code>dry_experiment</code>（干实验/生信分析）字段被实际填充的记录，逐条展示模型抽出的具体内容。</p>
+    <div class="stat-row">
+      <div class="stat"><span class="stat-num">100/100</span><span class="stat-label">文献已跑完（96 成功）</span></div>
+      <div class="stat"><span class="stat-num">63/100</span><span class="stat-label">专利跑到（56 成功，后台继续中）</span></div>
+      <div class="stat"><span class="stat-num">8 / 19</span><span class="stat-label">本批文献 / 专利中含体外或体内实验记录数</span></div>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <div class="toc-title">跳转到记录</div>
+    <div class="toc-grid"><a href="#paper-29176582" class="toc-item"><span class="toc-dot dot-paper"></span>Listeria monocytogenes: towa…</a><a href="#paper-26969089" class="toc-item"><span class="toc-dot dot-paper"></span>Gut bacteria dysbiosis and n…</a><a href="#paper-30935734" class="toc-item"><span class="toc-dot dot-paper"></span>Clinical and biological pred…</a><a href="#paper-26628328" class="toc-item"><span class="toc-dot dot-paper"></span>Bifidobacterium breve BBG-00…</a><a href="#paper-28214091" class="toc-item"><span class="toc-dot dot-paper"></span>Multidonor intensive faecal …</a><a href="#patent-76" class="toc-item"><span class="toc-dot dot-patent"></span>棕榈酰化抑制剂在胃癌防治中的应用…</a><a href="#patent-63" class="toc-item"><span class="toc-dot dot-patent"></span>一株人乳来源的抗氧化、抗炎、组织保护和肠道屏障保护的益生…</a><a href="#patent-46" class="toc-item"><span class="toc-dot dot-patent"></span>HMO混合物和长双歧杆菌过渡型微生物…</a><a href="#patent-68" class="toc-item"><span class="toc-dot dot-patent"></span>一种食物来源的高产生物被膜戊糖乳杆菌及其应用…</a><a href="#patent-20" class="toc-item"><span class="toc-dot dot-patent"></span>一株高效利用3&#x27;-唾液酸乳糖的普通拟杆菌及其改善肠道健康…</a></div>
+  </nav>
+
+  <main class="records">
+    
+    <article class="record" id="paper-29176582">
+      <div class="record-head">
+        <div class="record-head-top">
+          <span class="badge badge-paper">文献 PAPER</span>
+          <span class="ident">29176582</span>
+          <span class="atype">ResearchArticle</span>
+        </div>
+        <h3 class="record-title">Listeria monocytogenes: towards a complete picture of its physiology and pathogenesis.</h3>
+        <div class="pill-row"><span class="pill pill-dry">生信分析</span></div>
+      </div>
+      <div class="field field-chips"><span class="field-label">涉及微生物 (3)</span><span class="field-value chip-row"><span class="microbe-chip cat-unclear" title="不明确 · Species">Pseudomonas rhizophila</span><span class="microbe-chip cat-unclear" title="不明确 · Species">Variovorax paradoxus</span><span class="microbe-chip cat-pathogenic" title="致病菌 · Species">Mycobacterium aubagnense</span></span></div>
+      <div class="record-body">
+        <div class="col">
+          <h4 class="col-title">湿实验 wet_experiments</h4>
+          <p class="empty-note">未提及体外/体内实验</p>
+        </div>
+        <div class="col">
+          <h4 class="col-title">干实验 dry_experiment</h4>
+          <div class="subblock"><h4>干实验 / 生信分析 <span class="tag tag-dry">dry lab</span></h4><div class="field field-chips"><span class="field-label">测序类型</span><span class="field-value chip-row"><span class="chip">宏基因组测序</span></span></div><div class="field"><span class="field-label">测序平台</span><span class="field-value">其他</span></div><div class="field"><span class="field-label">读长</span><span class="field-value">150bp（PE150）</span></div><div class="field"><span class="field-label">测序模式</span><span class="field-value">双端测序（PE）</span></div><div class="field field-chips"><span class="field-label">样本类型</span><span class="field-value chip-row"><span class="chip">环境样本</span></span></div><div class="field field-chips"><span class="field-label">原始数据编号</span><span class="field-value chip-row"><span class="chip">PRJCA040783</span></span></div></div><div class="subblock"><h4>分析流程用到的具体工具/算法/数据库 <span class="count-badge">25 条</span></h4><div class="steps-wrap">
+      <table class="steps-table">
+        <thead><tr><th>分析阶段</th><th>类别</th><th>工具 / 算法 / 数据库名称</th></tr></thead>
+        <tbody><tr>
+          <td class="stage-cell">质控</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">Trimmomatic</td>
+        </tr><tr>
+          <td class="stage-cell">质控</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">BWA-MEM</td>
+        </tr><tr>
+          <td class="stage-cell">组装</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">MegaHit</td>
+        </tr><tr>
+          <td class="stage-cell">组装</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">MetaBAT2</td>
+        </tr><tr>
+          <td class="stage-cell">基因预测</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">metaProdigal</td>
+        </tr><tr>
+          <td class="stage-cell">基因预测</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">CD-HIT</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">BP-tracer</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">DIAMOND</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">SARG</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">MGE database</td>
+        </tr><tr>
+          <td class="stage-cell">物种注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">NR</td>
+        </tr><tr>
+          <td class="stage-cell">物种注释</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">GTDB Toolkit</td>
+        </tr><tr>
+          <td class="stage-cell">物种注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">MBPD</td>
+        </tr><tr>
+          <td class="stage-cell">多样性分析</td>
+          <td><span class="kind-pill kind-Software">软件</span></td>
+          <td class="tool-name">vegan</td>
+        </tr><tr>
+          <td class="stage-cell">多样性分析</td>
+          <td><span class="kind-pill kind-Software">软件</span></td>
+          <td class="tool-name">Rtsne</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">Nonpareil</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">salmon</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">CheckM</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">dRep</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">MetaWRAP</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">PlasFlow</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">DiGAlign</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-Software">软件</span></td>
+          <td class="tool-name">NetCoMi</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-Software">软件</span></td>
+          <td class="tool-name">NST</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-Software">软件</span></td>
+          <td class="tool-name">Gephi</td>
+        </tr></tbody>
+      </table>
+    </div></div>
+        </div>
+      </div>
+      <details class="findings-details">
+        <summary>结论关联 findings（5 条）</summary>
+        <ul class="findings"><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Pseudomonas rhizophila</strong> — 农田中该菌携带最多ARG，含13个多药耐药基因
+          <span class="finding-ev">BioinformaticsAnalysis</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Variovorax paradoxus</strong> — 牧草地中该菌携带最多ARG及MGE组分
+          <span class="finding-ev">BioinformaticsAnalysis</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-unclear">? 不明确</span>
+          <span class="finding-body"><strong>Mycobacterium aubagnense</strong> — 为牧草地唯一鉴定的病原菌，携带多个耐药基因
+          <span class="finding-ev">BioinformaticsAnalysis</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-reg">⇄ 调节</span>
+          <span class="finding-body"><strong>sul2</strong> — sul2可能经ISVsa3插入序列在农田跨门水平转移
+          <span class="finding-ev">BioinformaticsAnalysis</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>—</strong> — 农田土壤ARG与MGE多样性显著高于邻近牧草地
+          <span class="finding-ev">BioinformaticsAnalysis</span></span>
+        </li></ul>
+      </details>
+    </article>
+    <article class="record" id="paper-26969089">
+      <div class="record-head">
+        <div class="record-head-top">
+          <span class="badge badge-paper">文献 PAPER</span>
+          <span class="ident">26969089</span>
+          <span class="atype">ResearchArticle</span>
+        </div>
+        <h3 class="record-title">Gut bacteria dysbiosis and necrotising enterocolitis in very low birthweight infants: a prospective case-control study.</h3>
+        <div class="pill-row"><span class="pill pill-dry">生信分析</span></div>
+      </div>
+      <div class="field field-chips"><span class="field-label">涉及微生物 (4)</span><span class="field-value chip-row"><span class="microbe-chip cat-opportunistic" title="机会致病菌 · Species">Escherichia coli</span><span class="microbe-chip cat-opportunistic" title="机会致病菌 · Genus">Enterobacter</span><span class="microbe-chip cat-opportunistic" title="机会致病菌 · Genus">Klebsiella</span><span class="microbe-chip cat-probiotic" title="益生菌 · Genus">Bifidobacterium</span></span></div>
+      <div class="record-body">
+        <div class="col">
+          <h4 class="col-title">湿实验 wet_experiments</h4>
+          <p class="empty-note">未提及体外/体内实验</p>
+        </div>
+        <div class="col">
+          <h4 class="col-title">干实验 dry_experiment</h4>
+          <div class="subblock"><h4>干实验 / 生信分析 <span class="tag tag-dry">dry lab</span></h4><div class="field field-chips"><span class="field-label">测序类型</span><span class="field-value chip-row"><span class="chip">16S rRNA测序</span></span></div><div class="field"><span class="field-label">测序平台</span><span class="field-value">其他</span></div><div class="field"><span class="field-label">平台详情</span><span class="field-value">Roche 454</span></div><div class="field"><span class="field-label">测序区域</span><span class="field-value">其他</span></div><div class="field"><span class="field-label">读长</span><span class="field-value">466 nucleotides（平均每read）</span></div><div class="field"><span class="field-label">样本来源</span><span class="field-value">婴儿</span></div><div class="field field-chips"><span class="field-label">样本类型</span><span class="field-value chip-row"><span class="chip">粪便</span></span></div><div class="field field-chips"><span class="field-label">原始数据编号</span><span class="field-value chip-row"><span class="chip">phs000247.v5.p3</span><span class="chip">PRJNA46337</span></span></div></div><div class="subblock"><h4>分析流程用到的具体工具/算法/数据库 <span class="count-badge">2 条</span></h4><div class="steps-wrap">
+      <table class="steps-table">
+        <thead><tr><th>分析阶段</th><th>类别</th><th>工具 / 算法 / 数据库名称</th></tr></thead>
+        <tbody><tr>
+          <td class="stage-cell">物种注释</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">Ribosomal Database Project Naive Bayesian Classifier version 2.5</td>
+        </tr><tr>
+          <td class="stage-cell">多样性分析</td>
+          <td><span class="kind-pill kind-Algorithm">算法</span></td>
+          <td class="tool-name">Dirichlet multinomial model</td>
+        </tr></tbody>
+      </table>
+    </div></div>
+        </div>
+      </div>
+      <details class="findings-details">
+        <summary>结论关联 findings（7 条）</summary>
+        <ul class="findings"><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>—</strong> — NEC发病前病例粪便中革兰阴性兼性杆菌Gammaproteobacteria比例随时间升高
+          <span class="finding-ev">BioinformaticsAnalysis</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>—</strong> — 病例组严格厌氧菌Negativicutes及Clostridia-Negativicutes比例低于对照并随时间减少
+          <span class="finding-ev">BioinformaticsAnalysis</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Escherichia coli</strong> — 大肠杆菌等革兰阴性潜在致病菌在NEC发病前粪便中比例偏高
+          <span class="finding-ev">BioinformaticsAnalysis</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-none">— 无显著影响</span>
+          <span class="finding-body"><strong>Bifidobacterium</strong> — 双歧杆菌在NEC病例与对照粪便间无显著差异，未见不足
+          <span class="finding-ev">BioinformaticsAnalysis</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-reg">⇄ 调节</span>
+          <span class="finding-body"><strong>—</strong> — 对照组粪便菌群多样性随时间显著增加，病例组无显著变化
+          <span class="finding-ev">BioinformaticsAnalysis</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-reg">⇄ 调节</span>
+          <span class="finding-body"><strong>短链脂肪酸</strong> — 厌氧菌产生抗炎短链脂肪酸（乙酸、丙酸、丁酸），据推测可保护肠道
+          <span class="finding-ev">Review</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-unclear">? 不明确</span>
+          <span class="finding-body"><strong>脂多糖</strong> — TLR4结合细菌脂多糖，可能参与NEC相关肠道细胞损伤过程
+          <span class="finding-ev">Review</span></span>
+        </li></ul>
+      </details>
+    </article>
+    <article class="record" id="paper-30935734">
+      <div class="record-head">
+        <div class="record-head-top">
+          <span class="badge badge-paper">文献 PAPER</span>
+          <span class="ident">30935734</span>
+          <span class="atype">ClinicalTrialArticle</span>
+        </div>
+        <h3 class="record-title">Clinical and biological predictors of response to standardised paediatric colitis therapy (PROTECT): a multicentre inception cohort study.</h3>
+        <div class="pill-row"><span class="pill pill-vivo">体内/临床实验</span><span class="pill pill-dry">生信分析</span></div>
+      </div>
+      <div class="field field-chips"><span class="field-label">涉及微生物 (4)</span><span class="field-value chip-row"><span class="microbe-chip cat-commensal" title="共生菌 · Genus">Ruminococcaceae</span><span class="microbe-chip cat-commensal" title="共生菌 · Genus">Clostridiales</span><span class="microbe-chip cat-unclear" title="不明确 · Genus">Sutterella</span><span class="microbe-chip cat-unclear" title="不明确 · Genus">Oscillospira</span></span></div>
+      <div class="record-body">
+        <div class="col">
+          <h4 class="col-title">湿实验 wet_experiments</h4>
+          <div class="subblock"><h4>体内动物/临床实验 <span class="tag tag-vivo">in vivo</span></h4><div class="field"><span class="field-label">物种</span><span class="field-value">人类(4-17岁新诊断溃疡性结肠炎儿童)</span></div><div class="field"><span class="field-label">给药途径</span><span class="field-value">口服美沙拉嗪或口服/静脉皮质类固醇，按预设标准升级至免疫调节剂(硫嘌呤)或抗TNFα治疗</span></div><div class="field field-chips"><span class="field-label">取材类型</span><span class="field-value chip-row"><span class="chip">组织</span><span class="chip">粪便</span><span class="chip">血液</span></span></div><div class="field"><span class="field-label">处理方式</span><span class="field-value">标准化初始治疗(美沙拉嗪±皮质类固醇)，按疾病严重度和响应升级</span></div><div class="field"><span class="field-label">检测方法</span><span class="field-value">PUCAI评分、Mayo评分、粪钙卫蛋白、直肠活检组织学(嗜酸性粒细胞、DEFA5免疫染色)、血清25(OH)D、血红蛋白</span></div><div class="field"><span class="field-label">分组设计</span><span class="field-value">按基线疾病严重度(轻度 vs 中重度)及52周结局(无激素缓解/仅免疫调节剂/抗TNFα/结肠切除)分组</span></div></div>
+        </div>
+        <div class="col">
+          <h4 class="col-title">干实验 dry_experiment</h4>
+          <div class="subblock"><h4>干实验 / 生信分析 <span class="tag tag-dry">dry lab</span></h4><div class="field field-chips"><span class="field-label">测序类型</span><span class="field-value chip-row"><span class="chip">16S rRNA测序</span><span class="chip">转录组测序</span></span></div><div class="field"><span class="field-label">平台详情</span><span class="field-value">RNAseq在Illumina平台进行并在Lexogen平台验证</span></div><div class="field"><span class="field-label">测序区域</span><span class="field-value">V4</span></div><div class="field"><span class="field-label">样本来源</span><span class="field-value">儿童</span></div><div class="field field-chips"><span class="field-label">样本类型</span><span class="field-value chip-row"><span class="chip">粪便</span></span></div></div><div class="subblock"><h4>分析流程用到的具体工具/算法/数据库 <span class="count-badge">3 条</span></h4><div class="steps-wrap">
+      <table class="steps-table">
+        <thead><tr><th>分析阶段</th><th>类别</th><th>工具 / 算法 / 数据库名称</th></tr></thead>
+        <tbody><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">GSEA (Gene Set Enrichment Analysis)</td>
+        </tr><tr>
+          <td class="stage-cell">分类/预测建模</td>
+          <td><span class="kind-pill kind-Algorithm">算法</span></td>
+          <td class="tool-name">LASSO</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-Algorithm">算法</span></td>
+          <td class="tool-name">主成分分析(PCA)</td>
+        </tr></tbody>
+      </table>
+    </div></div>
+        </div>
+      </div>
+      <details class="findings-details">
+        <summary>结论关联 findings（7 条）</summary>
+        <ul class="findings"><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>DEFA5</strong> — 直肠α-防御素基因表达上调与UC更难治病程(升级抗TNFα)相关
+          <span class="finding-ev">BioinformaticsAnalysis</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Ruminococcaceae</strong> — Ruminococcaceae相对丰度较高与52周无激素缓解相关
+          <span class="finding-ev">BioinformaticsAnalysis</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Sutterella</strong> — Sutterella丰度较低与52周无激素缓解相关
+          <span class="finding-ev">BioinformaticsAnalysis</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Clostridiales</strong> — 诊断时梭菌目水平较低与升级抗TNFα治疗相关
+          <span class="finding-ev">BioinformaticsAnalysis</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Oscillospira</strong> — Oscillospira水平较低与升级抗TNFα治疗相关
+          <span class="finding-ev">BioinformaticsAnalysis</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>维生素D(25(OH)D)</strong> — 较低血清25(OH)D与中重度患者升级抗TNFα治疗相关
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>上皮离子通道及转运蛋白(guanylin)</strong> — 上皮转运基因表达较低与升级抗TNFα治疗相关
+          <span class="finding-ev">BioinformaticsAnalysis</span></span>
+        </li></ul>
+      </details>
+    </article>
+    <article class="record" id="paper-26628328">
+      <div class="record-head">
+        <div class="record-head-top">
+          <span class="badge badge-paper">文献 PAPER</span>
+          <span class="ident">26628328</span>
+          <span class="atype">ClinicalTrialArticle</span>
+        </div>
+        <h3 class="record-title">Bifidobacterium breve BBG-001 in very preterm infants: a randomised controlled phase 3 trial.</h3>
+        <div class="pill-row"><span class="pill pill-vivo">体内/临床实验</span></div>
+      </div>
+      <div class="field field-chips"><span class="field-label">涉及微生物 (1)</span><span class="field-value chip-row"><span class="microbe-chip cat-probiotic" title="益生菌 · Strain">Bifidobacterium breve BBG-001</span></span></div>
+      <div class="record-body">
+        <div class="col">
+          <h4 class="col-title">湿实验 wet_experiments</h4>
+          <div class="subblock"><h4>体内动物/临床实验 <span class="tag tag-vivo">in vivo</span></h4><div class="field"><span class="field-label">物种</span><span class="field-value">人类临床受试者（早产儿，胎龄23-30周）</span></div><div class="field"><span class="field-label">给药途径</span><span class="field-value">肠内给药（益生菌悬浮于稀释的要素婴儿配方奶中每日给予）</span></div><div class="field"><span class="field-label">剂量</span><span class="field-value">每日8.2至9.2 log10 CFU</span></div><div class="field"><span class="field-label">剂型</span><span class="field-value">悬浮于稀释要素婴儿配方奶的混悬液</span></div><div class="field field-chips"><span class="field-label">取材类型</span><span class="field-value chip-row"><span class="chip">血液</span></span></div><div class="field"><span class="field-label">处理方式</span><span class="field-value">益生菌组给予B breve BBG-001，安慰剂组仅给稀释配方奶</span></div><div class="field"><span class="field-label">检测方法</span><span class="field-value">血培养（判定败血症）、坏死性小肠结肠炎Bell分期、出院前死亡统计</span></div><div class="field"><span class="field-label">分组设计</span><span class="field-value">益生菌组/安慰剂组（1:1随机分配）</span></div></div>
+        </div>
+        <div class="col">
+          <h4 class="col-title">干实验 dry_experiment</h4>
+          <p class="empty-note">未提及干实验/生信分析</p>
+        </div>
+      </div>
+      <details class="findings-details">
+        <summary>结论关联 findings（3 条）</summary>
+        <ul class="findings"><li class="finding">
+          <span class="finding-dir dir-none">— 无显著影响</span>
+          <span class="finding-body"><strong>Bifidobacterium breve BBG-001</strong> — 益生菌组与安慰剂组坏死性小肠结肠炎发生率无显著差异
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-none">— 无显著影响</span>
+          <span class="finding-body"><strong>Bifidobacterium breve BBG-001</strong> — 益生菌未显著降低早产儿迟发性败血症发生率
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-none">— 无显著影响</span>
+          <span class="finding-body"><strong>Bifidobacterium breve BBG-001</strong> — 益生菌未显著降低早产儿出院前死亡率
+          <span class="finding-ev">Experiment</span></span>
+        </li></ul>
+      </details>
+    </article>
+    <article class="record" id="paper-28214091">
+      <div class="record-head">
+        <div class="record-head-top">
+          <span class="badge badge-paper">文献 PAPER</span>
+          <span class="ident">28214091</span>
+          <span class="atype">ClinicalTrialArticle</span>
+        </div>
+        <h3 class="record-title">Multidonor intensive faecal microbiota transplantation for active ulcerative colitis: a randomised placebo-controlled trial.</h3>
+        <div class="pill-row"><span class="pill pill-vivo">体内/临床实验</span><span class="pill pill-dry">生信分析</span></div>
+      </div>
+      <div class="field field-chips"><span class="field-label">涉及微生物 (1)</span><span class="field-value chip-row"><span class="microbe-chip cat-unclear" title="不明确 · Genus">Fusobacterium</span></span></div>
+      <div class="record-body">
+        <div class="col">
+          <h4 class="col-title">湿实验 wet_experiments</h4>
+          <div class="subblock"><h4>体内动物/临床实验 <span class="tag tag-vivo">in vivo</span></h4><div class="field"><span class="field-label">物种</span><span class="field-value">人类临床受试者</span></div><div class="field"><span class="field-label">给药途径</span><span class="field-value">结肠镜灌注一次后连续8周每周5天灌肠</span></div><div class="field"><span class="field-label">剂型</span><span class="field-value">粪菌灌肠液（每份来自3-7名无关供体）</span></div><div class="field field-chips"><span class="field-label">取材类型</span><span class="field-value chip-row"><span class="chip">粪便</span></span></div><div class="field"><span class="field-label">处理方式</span><span class="field-value">多供体强化剂量粪菌移植 vs 安慰剂灌注/灌肠</span></div><div class="field"><span class="field-label">检测方法</span><span class="field-value">Mayo评分、内镜评估（临床缓解与内镜缓解/应答）</span></div><div class="field"><span class="field-label">分组设计</span><span class="field-value">粪菌移植组/安慰剂组（1:1随机）</span></div></div>
+        </div>
+        <div class="col">
+          <h4 class="col-title">干实验 dry_experiment</h4>
+          <div class="subblock"><h4>干实验 / 生信分析 <span class="tag tag-dry">dry lab</span></h4><div class="field field-chips"><span class="field-label">测序类型</span><span class="field-value chip-row"><span class="chip">16S rRNA测序</span></span></div><div class="field"><span class="field-label">样本来源</span><span class="field-value">混合</span></div><div class="field field-chips"><span class="field-label">样本类型</span><span class="field-value chip-row"><span class="chip">粪便</span></span></div></div>
+        </div>
+      </div>
+      <details class="findings-details">
+        <summary>结论关联 findings（3 条）</summary>
+        <ul class="findings"><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>—</strong> — 多供体强化剂量粪菌移植诱导活动性溃疡性结肠炎临床缓解及内镜改善
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>—</strong> — 粪菌移植后微生物多样性增加并持续存在
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-unclear">? 不明确</span>
+          <span class="finding-body"><strong>Fusobacterium</strong> — Fusobacterium spp 的存在与患者未获缓解相关
+          <span class="finding-ev">Experiment</span></span>
+        </li></ul>
+      </details>
+    </article>
+    <article class="record" id="patent-76">
+      <div class="record-head">
+        <div class="record-head-top">
+          <span class="badge badge-patent">专利 PATENT</span>
+          <span class="ident">专利 ID 76</span>
+          <span class="atype">ResearchPatent</span>
+        </div>
+        <h3 class="record-title">棕榈酰化抑制剂在胃癌防治中的应用</h3>
+        <div class="pill-row"><span class="pill pill-vitro">体外实验</span><span class="pill pill-vivo">体内/临床实验</span><span class="pill pill-dry">生信分析</span></div>
+      </div>
+      <div class="field field-chips"><span class="field-label">涉及微生物 (11)</span><span class="field-value chip-row"><span class="microbe-chip cat-opportunistic" title="机会致病菌 · Species">Streptococcus anginosus</span><span class="microbe-chip cat-unclear" title="不明确 · Genus">Streptococcus</span><span class="microbe-chip cat-opportunistic" title="机会致病菌 · Genus">Bacteroides</span><span class="microbe-chip cat-opportunistic" title="机会致病菌 · Genus">Prevotella</span><span class="microbe-chip cat-opportunistic" title="机会致病菌 · Genus">Klebsiella</span><span class="microbe-chip cat-opportunistic" title="机会致病菌 · Genus">Enterococcus</span><span class="microbe-chip cat-commensal" title="共生菌 · Genus">Clostridium</span><span class="microbe-chip cat-probiotic" title="益生菌 · Genus">Lactobacillus</span><span class="microbe-chip cat-pathogenic" title="致病菌 · Species">Fusobacterium nucleatum</span><span class="microbe-chip cat-pathogenic" title="致病菌 · Species">Helicobacter pylori</span><span class="microbe-chip cat-commensal" title="共生菌 · Species">Prevotella melaninogenica</span></span></div>
+      <div class="record-body">
+        <div class="col">
+          <h4 class="col-title">湿实验 wet_experiments</h4>
+          <div class="subblock"><h4>体外实验 <span class="tag tag-vitro">in vitro</span></h4><div class="field"><span class="field-label">菌株复苏</span><span class="field-value">BHI琼脂平板培养获得单克隆，BHI肉汤37℃有氧条件过夜培养</span></div><div class="field"><span class="field-label">培养条件</span><span class="field-value">37℃、5% CO2湿润环境培养</span></div><div class="field"><span class="field-label">菌液浓度标定</span><span class="field-value">OD600测定，MOI 10-30</span></div><div class="field"><span class="field-label">细胞系</span><span class="field-value">AGS、MKN1、MKN45、YTN16、NUGC3、HEK293T、YTN16-OVA、Caco-2</span></div><div class="field"><span class="field-label">诱导方式</span><span class="field-value">LPS刺激、TNF-α处理、放线菌酮CHX处理、MG132处理</span></div><div class="field"><span class="field-label">处理方式</span><span class="field-value">S.anginosus菌株共培养、S.anginosus条件培养基处理、S.anginosus EVs处理、2-BP处理、Palmostatin B处理、胞吞抑制剂(氯丙嗪、细胞松弛素D、Dynasore)预处理</span></div><div class="field"><span class="field-label">检测方法</span><span class="field-value">增殖实验(Incucyte活细胞成像)、集落形成实验、Transwell迁移侵袭实验、免疫荧光染色、免疫印迹、qRT-PCR、免疫共沉淀、质谱分析、酰基-生物素交换(ABE)棕榈酰化检测、泛素化检测、邻位连接技术(PLA)、染色质免疫沉淀(ChIP)、OT-1 CD8+ T细胞共培养、ELISA、凝胶过滤色谱</span></div><div class="field"><span class="field-label">分组设计</span><span class="field-value">对照组(PBS/BHI)、S.anginosus处理组、S.anginosus条件培养基组、S.anginosus EVs处理组、核酸酶处理组、热处理组、胞吞抑制剂+EVs组、过表达/敲低组、2-BP处理组、Palmostatin B处理组</span></div></div><div class="subblock"><h4>体内动物/临床实验 <span class="tag tag-vivo">in vivo</span></h4><div class="field"><span class="field-label">物种</span><span class="field-value">小鼠</span></div><div class="field"><span class="field-label">品系</span><span class="field-value">C57BL/6</span></div><div class="field"><span class="field-label">模型验证方法</span><span class="field-value">肿瘤体积测量、肿瘤重量测量</span></div><div class="field"><span class="field-label">给药途径</span><span class="field-value">灌胃、皮下注射、腹腔注射</span></div><div class="field"><span class="field-label">剂量</span><span class="field-value">S.anginosus: 1×10^8 CFU，每两天一次；S.anginosus EVs: 50 μg，每两天一次；2-BP: 40 mg/kg，隔日一次；抗PD-1抗体: 3 mg/kg，每周两次</span></div><div class="field"><span class="field-label">剂型</span><span class="field-value">菌液、囊泡悬液、注射液</span></div><div class="field field-chips"><span class="field-label">取材类型</span><span class="field-value chip-row"><span class="chip">粪便</span><span class="chip">肿瘤组织</span><span class="chip">血液</span></span></div><div class="field"><span class="field-label">处理方式</span><span class="field-value">抗生素预处理(万古霉素0.5 mg/mL、粘菌素0.3 mg/mL、氨苄青霉素1 mg/mL，2周)、灌胃给药、腹腔注射、皮下移植</span></div><div class="field"><span class="field-label">检测方法</span><span class="field-value">免疫组化(Ki-67、PCNA、Cleaved caspase-3、ZDHHC11、PD-L1、CD8、HA、S.a-SNF2)、免疫荧光、16S rRNA测序、流式细胞术</span></div><div class="field"><span class="field-label">分组设计</span><span class="field-value">对照组(PBS)、S.anginosus灌胃组、S.anginosus EVs灌胃组、SNF2过表达组、2-BP处理组、抗PD-1抗体组、2-BP+抗PD-1联合治疗组</span></div></div>
+        </div>
+        <div class="col">
+          <h4 class="col-title">干实验 dry_experiment</h4>
+          <div class="subblock"><h4>干实验 / 生信分析 <span class="tag tag-dry">dry lab</span></h4><div class="field field-chips"><span class="field-label">测序类型</span><span class="field-value chip-row"><span class="chip">16S rRNA测序</span><span class="chip">转录组测序</span></span></div><div class="field"><span class="field-label">测序平台</span><span class="field-value">Illumina NovaSeq</span></div><div class="field"><span class="field-label">平台详情</span><span class="field-value">Illumina NovaSeq平台，NovaSeq 6000 SP Reagent Kit</span></div><div class="field"><span class="field-label">测序区域</span><span class="field-value">V3-V4</span></div><div class="field"><span class="field-label">引物</span><span class="field-value">338F/806R</span></div><div class="field"><span class="field-label">测序模式</span><span class="field-value">双端测序（PE）</span></div><div class="field"><span class="field-label">样本来源</span><span class="field-value">成人</span></div><div class="field field-chips"><span class="field-label">样本类型</span><span class="field-value chip-row"><span class="chip">粪便</span><span class="chip">组织</span></span></div></div><div class="subblock"><h4>分析流程用到的具体工具/算法/数据库 <span class="count-badge">17 条</span></h4><div class="steps-wrap">
+      <table class="steps-table">
+        <thead><tr><th>分析阶段</th><th>类别</th><th>工具 / 算法 / 数据库名称</th></tr></thead>
+        <tbody><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">GO富集分析</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">KEGG</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">JASPAR</td>
+        </tr><tr>
+          <td class="stage-cell">物种注释</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">LDA</td>
+        </tr><tr>
+          <td class="stage-cell">物种注释</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">LEfSe</td>
+        </tr><tr>
+          <td class="stage-cell">多样性分析</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">PCoA</td>
+        </tr><tr>
+          <td class="stage-cell">多样性分析</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">Chao1指数</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-Software">软件</span></td>
+          <td class="tool-name">Proteome Discoverer 2.4</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-Software">软件</span></td>
+          <td class="tool-name">PyMOL</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-Software">软件</span></td>
+          <td class="tool-name">GRAMM</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-Software">软件</span></td>
+          <td class="tool-name">GROMACS 2022</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-Software">软件</span></td>
+          <td class="tool-name">Discovery Studio 2019</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">GEPIA</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">TCGA</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">TISCH</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">TIMER2.0</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">UniProt</td>
+        </tr></tbody>
+      </table>
+    </div></div>
+        </div>
+      </div>
+      <details class="findings-details">
+        <summary>结论关联 findings（18 条）</summary>
+        <ul class="findings"><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Streptococcus anginosus</strong> — S.anginosus在胃癌组织中富集，并促进肿瘤生长
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Streptococcus anginosus</strong> — S.anginosus灌胃上调肿瘤增殖标志物Ki-67表达
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Streptococcus anginosus</strong> — S.anginosus灌胃降低肿瘤凋亡标志物表达
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Streptococcus anginosus</strong> — S.anginosus灌胃重塑肠道菌群，促肿瘤菌群富集
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Streptococcus anginosus</strong> — S.anginosus EVs通过携带SNF2蛋白被胃癌细胞内化
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-reg">⇄ 调节</span>
+          <span class="finding-body"><strong>SNF2</strong> — SNF2与转录因子TEAD1结合并协同作用
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>SNF2</strong> — SNF2-TEAD1复合物促进ZDHHC11转录
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>ZDHHC11</strong> — ZDHHC11催化PD-L1棕榈酰化修饰
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>PD-L1</strong> — ZDHHC11通过抑制泛素化降解增强PD-L1稳定性
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>PD-L1</strong> — PD-L1稳定性增强导致CD8+ T细胞功能抑制
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>IL-2</strong> — S.anginosus EVs处理抑制CD8+ T细胞分泌IL-2
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>IFN-γ</strong> — S.anginosus EVs处理抑制CD8+ T细胞分泌IFN-γ
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>SNF2</strong> — SNF2激活TEAD1下游致癌靶点AXL
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>SNF2</strong> — SNF2激活TEAD1下游致癌靶点CTGF
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>SNF2</strong> — SNF2激活TEAD1下游致癌靶点CYR61
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>ZDHHC11</strong> — 阻断ZDHHC11可逆转免疫逃逸并与抗PD-1疗法协同
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-reg">⇄ 调节</span>
+          <span class="finding-body"><strong>Streptococcus anginosus</strong> — S.anginosus表面蛋白TMPC可能通过ANXA2受体激活MAPK通路
+          <span class="finding-ev">Review</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>SNF2</strong> — S.a-SNF2高表达与胃癌患者不良预后相关
+          <span class="finding-ev">Experiment</span></span>
+        </li></ul>
+      </details>
+    </article>
+    <article class="record" id="patent-63">
+      <div class="record-head">
+        <div class="record-head-top">
+          <span class="badge badge-patent">专利 PATENT</span>
+          <span class="ident">专利 ID 63</span>
+          <span class="atype">ResearchPatent</span>
+        </div>
+        <h3 class="record-title">一株人乳来源的抗氧化、抗炎、组织保护和肠道屏障保护的益生菌及其应用</h3>
+        <div class="pill-row"><span class="pill pill-vitro">体外实验</span><span class="pill pill-vivo">体内/临床实验</span><span class="pill pill-dry">生信分析</span></div>
+      </div>
+      <div class="field field-chips"><span class="field-label">涉及微生物 (4)</span><span class="field-value chip-row"><span class="microbe-chip cat-probiotic" title="益生菌 · Strain">Lacticaseibacillus paracasei DPUMW-M14-9</span><span class="microbe-chip cat-probiotic" title="益生菌 · Species">Lacticaseibacillus paracasei</span><span class="microbe-chip cat-probiotic" title="益生菌 · Species">Lactobacillus rhamnosus GG</span><span class="microbe-chip cat-pathogenic" title="致病菌 · Species">Listeria monocytogenes</span></span></div>
+      <div class="record-body">
+        <div class="col">
+          <h4 class="col-title">湿实验 wet_experiments</h4>
+          <div class="subblock"><h4>体外实验 <span class="tag tag-vitro">in vitro</span></h4><div class="field"><span class="field-label">菌株复苏</span><span class="field-value">-80℃甘油菌→平板划线</span></div><div class="field"><span class="field-label">培养条件</span><span class="field-value">MRS培养基，37℃厌氧培养16-18h</span></div><div class="field"><span class="field-label">菌液浓度标定</span><span class="field-value">OD600调整至0.5</span></div><div class="field"><span class="field-label">细胞系</span><span class="field-value">Caco-2、IEC-6</span></div><div class="field"><span class="field-label">诱导方式</span><span class="field-value">LPS刺激（10μg/mL）</span></div><div class="field"><span class="field-label">处理方式</span><span class="field-value">细菌与细胞以1:100比例预孵育2小时，随后LPS处理24小时</span></div><div class="field"><span class="field-label">检测方法</span><span class="field-value">ELISA测定细胞因子（IL-6、TNF-α、IL-10）、qPCR检测基因表达、免疫荧光染色ZO-1、流式细胞术分析细胞周期、MTT细胞增殖与毒性检测、平板计数法检测黏附细菌、DPPH自由基清除活性测定</span></div><div class="field"><span class="field-label">分组设计</span><span class="field-value">对照组、LPS模型组、菌株干预组</span></div></div><div class="subblock"><h4>体内动物/临床实验 <span class="tag tag-vivo">in vivo</span></h4><div class="field"><span class="field-label">物种</span><span class="field-value">大鼠</span></div><div class="field"><span class="field-label">品系</span><span class="field-value">Sprague-Dawley (SD)</span></div><div class="field"><span class="field-label">给药途径</span><span class="field-value">口服灌胃</span></div><div class="field"><span class="field-label">剂量</span><span class="field-value">1×10^9 CFU/kg体重</span></div><div class="field"><span class="field-label">剂型</span><span class="field-value">菌液</span></div><div class="field field-chips"><span class="field-label">取材类型</span><span class="field-value chip-row"><span class="chip">组织</span></span></div><div class="field"><span class="field-label">处理方式</span><span class="field-value">连续14天口服灌胃给予菌株</span></div><div class="field"><span class="field-label">检测方法</span><span class="field-value">H&amp;E染色组织病理学观察</span></div><div class="field"><span class="field-label">分组设计</span><span class="field-value">对照组（生理盐水）、治疗组（菌株干预）</span></div></div>
+        </div>
+        <div class="col">
+          <h4 class="col-title">干实验 dry_experiment</h4>
+          <div class="subblock"><h4>干实验 / 生信分析 <span class="tag tag-dry">dry lab</span></h4><div class="field field-chips"><span class="field-label">测序类型</span><span class="field-value chip-row"><span class="chip">全基因组测序</span></span></div><div class="field"><span class="field-label">测序平台</span><span class="field-value">Illumina NovaSeq</span></div><div class="field"><span class="field-label">平台详情</span><span class="field-value">Illumina NovaSeq和Nanopore PromethION 48</span></div></div><div class="subblock"><h4>分析流程用到的具体工具/算法/数据库 <span class="count-badge">15 条</span></h4><div class="steps-wrap">
+      <table class="steps-table">
+        <thead><tr><th>分析阶段</th><th>类别</th><th>工具 / 算法 / 数据库名称</th></tr></thead>
+        <tbody><tr>
+          <td class="stage-cell">质控</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">Pilon</td>
+        </tr><tr>
+          <td class="stage-cell">组装</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">Flye</td>
+        </tr><tr>
+          <td class="stage-cell">组装</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">Unicycler</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">NR</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">GO</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">KEGG</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">COG</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">CAZy</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">VFDB</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">CARD</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">OrthoFinder</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">FastTree</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">UBCG</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">CGView</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">Circos</td>
+        </tr></tbody>
+      </table>
+    </div></div>
+        </div>
+      </div>
+      <details class="findings-details">
+        <summary>结论关联 findings（11 条）</summary>
+        <ul class="findings"><li class="finding">
+          <span class="finding-dir dir-reg">⇄ 调节</span>
+          <span class="finding-body"><strong>Lacticaseibacillus paracasei DPUMW-M14-9</strong> — 该菌株具有耐酸、耐胆汁、抗氧化能力强等特性
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Lacticaseibacillus paracasei DPUMW-M14-9</strong> — 该菌株能有效黏附上皮细胞，促进细胞增殖
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-reg">⇄ 调节</span>
+          <span class="finding-body"><strong>Lacticaseibacillus paracasei DPUMW-M14-9</strong> — 该菌株调控细胞周期，增加S期、减少G2/M期
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Lacticaseibacillus paracasei DPUMW-M14-9</strong> — 该菌株抑制LPS诱导的TNF-α表达
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Lacticaseibacillus paracasei DPUMW-M14-9</strong> — 该菌株抑制LPS诱导的IL-6表达
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Lacticaseibacillus paracasei DPUMW-M14-9</strong> — 该菌株抑制LPS诱导的IL-1β表达
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Lacticaseibacillus paracasei DPUMW-M14-9</strong> — 该菌株修复并增加紧密连接蛋白ZO-1表达
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Lacticaseibacillus paracasei DPUMW-M14-9</strong> — 该菌株修复并增加紧密连接蛋白Occludin表达
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Lacticaseibacillus paracasei DPUMW-M14-9</strong> — 该菌株修复并增加紧密连接蛋白Claudin-1表达
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-reg">⇄ 调节</span>
+          <span class="finding-body"><strong>Lacticaseibacillus paracasei DPUMW-M14-9</strong> — 该菌株增强上皮细胞完整性，保护肠道屏障
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-reg">⇄ 调节</span>
+          <span class="finding-body"><strong>Lacticaseibacillus paracasei DPUMW-M14-9</strong> — 该菌株有助于肠道基本结构发育，未引起肠道病变
+          <span class="finding-ev">Experiment</span></span>
+        </li></ul>
+      </details>
+    </article>
+    <article class="record" id="patent-46">
+      <div class="record-head">
+        <div class="record-head-top">
+          <span class="badge badge-patent">专利 PATENT</span>
+          <span class="ident">专利 ID 46</span>
+          <span class="atype">ResearchPatent</span>
+        </div>
+        <h3 class="record-title">HMO混合物和长双歧杆菌过渡型微生物</h3>
+        <div class="pill-row"><span class="pill pill-vitro">体外实验</span><span class="pill pill-vivo">体内/临床实验</span><span class="pill pill-dry">生信分析</span></div>
+      </div>
+      <div class="field field-chips"><span class="field-label">涉及微生物 (14)</span><span class="field-value chip-row"><span class="microbe-chip cat-candidate" title="候选益生菌 · Species">Bifidobacterium longum 过渡型/青春亚种</span><span class="microbe-chip cat-candidate" title="候选益生菌 · Strain">Bifidobacterium longum transitional CNCM I-5683</span><span class="microbe-chip cat-candidate" title="候选益生菌 · Strain">Bifidobacterium longum transitional CNCM I-5684</span><span class="microbe-chip cat-candidate" title="候选益生菌 · Strain">Bifidobacterium longum transitional CNCM I-5685</span><span class="microbe-chip cat-candidate" title="候选益生菌 · Strain">Bifidobacterium longum transitional CNCM I-5686</span><span class="microbe-chip cat-candidate" title="候选益生菌 · Strain">Bifidobacterium longum transitional CNCM I-5687</span><span class="microbe-chip cat-candidate" title="候选益生菌 · Strain">Bifidobacterium longum transitional CMCC-P0001 (ATCC BAA-2753)</span><span class="microbe-chip cat-probiotic" title="益生菌 · Species">Bifidobacterium longum subsp. infantis</span><span class="microbe-chip cat-probiotic" title="益生菌 · Strain">Bifidobacterium longum subsp. infantis LMG 11588</span><span class="microbe-chip cat-probiotic" title="益生菌 · Species">Bifidobacterium animalis subsp. lactis</span><span class="microbe-chip cat-probiotic" title="益生菌 · Strain">Bifidobacterium animalis subsp. lactis CNCM I-3446</span><span class="microbe-chip cat-pathogenic" title="致病菌 · Species">呼吸道合胞病毒</span><span class="microbe-chip cat-pathogenic" title="致病菌 · Species">流感病毒</span><span class="microbe-chip cat-pathogenic" title="致病菌 · Species">小鼠肺炎病毒</span></span></div>
+      <div class="record-body">
+        <div class="col">
+          <h4 class="col-title">湿实验 wet_experiments</h4>
+          <div class="subblock"><h4>体外实验 <span class="tag tag-vitro">in vitro</span></h4><div class="field"><span class="field-label">菌株复苏</span><span class="field-value">从冷冻储液在MRS培养基中重新活化，通过两个连续培养步骤（16h，37℃，厌氧）</span></div><div class="field"><span class="field-label">培养条件</span><span class="field-value">厌氧条件，37℃</span></div><div class="field"><span class="field-label">菌液浓度标定</span><span class="field-value">OD600光密度测量</span></div><div class="field"><span class="field-label">细胞系</span><span class="field-value">Caco-2细胞</span></div><div class="field"><span class="field-label">诱导方式</span><span class="field-value">IFN-γ和TNF-α刺激</span></div><div class="field"><span class="field-label">处理方式</span><span class="field-value">Caco-2单层与益生菌菌株温育24小时，随后用促炎细胞因子刺激</span></div><div class="field"><span class="field-label">检测方法</span><span class="field-value">跨膜电阻（TEER）测量、荧光素磺酸通量测量、ELISA检测细胞因子（IL-10、IL-12p40、IL-6）、NMR技术测量代谢物（SCFA、TCA中间体）</span></div><div class="field"><span class="field-label">分组设计</span><span class="field-value">对照组（载体）、过渡型长双歧杆菌处理组、乳双歧杆菌处理组、婴儿双歧杆菌处理组</span></div></div><div class="subblock"><h4>体内动物/临床实验 <span class="tag tag-vivo">in vivo</span></h4><div class="field"><span class="field-label">物种</span><span class="field-value">小鼠</span></div><div class="field"><span class="field-label">品系</span><span class="field-value">C57BL/6 WT</span></div><div class="field"><span class="field-label">造模方式（药物）</span><span class="field-value">小鼠肺炎病毒（PVM）J3666鼻内感染（10 PFU）诱导细支气管炎</span></div><div class="field"><span class="field-label">造模方式（行为学）</span><span class="field-value">蟑螂过敏原提取物（CRE）与颗粒物PM2.5鼻内致敏诱导污染加剧的过敏性气道炎症</span></div><div class="field"><span class="field-label">模型验证方法</span><span class="field-value">测量病毒诱导的肺部炎症、气道上皮细胞脱落、粘液分泌、组织重塑；流式细胞术评估免疫细胞</span></div><div class="field"><span class="field-label">给药途径</span><span class="field-value">胃内灌饲</span></div><div class="field"><span class="field-label">剂量</span><span class="field-value">益生菌106 CFU/天，HMO 4mg/天</span></div><div class="field"><span class="field-label">剂型</span><span class="field-value">盐水溶液悬浮</span></div><div class="field field-chips"><span class="field-label">取材类型</span><span class="field-value chip-row"><span class="chip">肺组织</span><span class="chip">气道灌洗液</span></span></div><div class="field"><span class="field-label">处理方式</span><span class="field-value">低纤维饮食或高纤维饮食喂养；生命早期（PND5-PND20）每天胃内灌饲益生菌和HMO混合物；PND10鼻内感染PVM；PND42-PND63每周鼻内致敏CRE+PM2.5</span></div><div class="field"><span class="field-label">检测方法</span><span class="field-value">流式细胞术检测免疫细胞（嗜中性粒细胞、嗜酸性粒细胞、ILC2）；组织病理学评估气道上皮细胞脱落、粘液评分、气道平滑肌重塑；ELISA或其他方法检测细胞因子（IFN-λ）</span></div><div class="field"><span class="field-label">分组设计</span><span class="field-value">对照组（盐水）、6HMO组、婴儿双歧杆菌组、婴儿双歧杆菌+6HMO合生素组、婴儿双歧杆菌+5HMO合生素组、三菌株（青春长双歧杆菌+婴儿双歧杆菌+乳双歧杆菌）+6HMO组；高纤维饮食对照组、低纤维饮食易感组</span></div></div>
+        </div>
+        <div class="col">
+          <h4 class="col-title">干实验 dry_experiment</h4>
+          <div class="subblock"><h4>干实验 / 生信分析 <span class="tag tag-dry">dry lab</span></h4><div class="field field-chips"><span class="field-label">测序类型</span><span class="field-value chip-row"><span class="chip">全基因组测序</span></span></div><div class="field"><span class="field-label">测序平台</span><span class="field-value">PacBio</span></div></div><div class="subblock"><h4>分析流程用到的具体工具/算法/数据库 <span class="count-badge">7 条</span></h4><div class="steps-wrap">
+      <table class="steps-table">
+        <thead><tr><th>分析阶段</th><th>类别</th><th>工具 / 算法 / 数据库名称</th></tr></thead>
+        <tbody><tr>
+          <td class="stage-cell">基因预测</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">dbCAN2</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">HMMER</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-Software">软件</span></td>
+          <td class="tool-name">Diamond</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">CAZy数据库</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">dbCAN CAZyme域HMM数据库</td>
+        </tr><tr>
+          <td class="stage-cell">物种注释</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">OrthoAni</td>
+        </tr><tr>
+          <td class="stage-cell">其他</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">NSimScan</td>
+        </tr></tbody>
+      </table>
+    </div></div>
+        </div>
+      </div>
+      <details class="findings-details">
+        <summary>结论关联 findings（12 条）</summary>
+        <ul class="findings"><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Bifidobacterium longum 过渡型/青春亚种</strong> — 过渡型长双歧杆菌发酵3-FL或豌豆纤维产生更多短链脂肪酸
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Bifidobacterium longum 过渡型/青春亚种</strong> — 过渡型长双歧杆菌训练单核细胞后增加IL-6产生
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Bifidobacterium longum 过渡型/青春亚种</strong> — 过渡型长双歧杆菌增加肠道上皮屏障跨膜电阻
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Bifidobacterium longum 过渡型/青春亚种</strong> — 过渡型长双歧杆菌降低肠道上皮屏障渗透性
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-reg">⇄ 调节</span>
+          <span class="finding-body"><strong>Bifidobacterium longum subsp. infantis</strong> — 婴儿双歧杆菌与6HMO合生素减少病毒诱导的气道上皮细胞脱落
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Bifidobacterium longum subsp. infantis</strong> — 婴儿双歧杆菌与6HMO合生素减少粘液分泌过多
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Bifidobacterium longum subsp. infantis</strong> — 婴儿双歧杆菌与6HMO合生素减少病理性气道重塑
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Bifidobacterium longum subsp. infantis</strong> — 婴儿双歧杆菌与6HMO合生素减少肺部嗜中性粒细胞和嗜酸性粒细胞浸润
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Bifidobacterium longum subsp. infantis</strong> — 婴儿双歧杆菌与5HMO合生素上调抗病毒细胞因子IFN-λ
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Bifidobacterium longum subsp. infantis</strong> — 婴儿双歧杆菌与6HMO合生素降低成年期过敏性气道炎症中肺ILC2和嗜酸性粒细胞数量
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Bifidobacterium longum 过渡型/青春亚种</strong> — 青春长双歧杆菌与婴儿双歧杆菌和乳双歧杆菌及6HMO组合显著增加吲哚-3-丙酸水平
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-reg">⇄ 调节</span>
+          <span class="finding-body"><strong>Bifidobacterium longum 过渡型/青春亚种</strong> — 过渡型长双歧杆菌相对于2&#x27;-FL优先利用3-FL
+          <span class="finding-ev">Experiment</span></span>
+        </li></ul>
+      </details>
+    </article>
+    <article class="record" id="patent-68">
+      <div class="record-head">
+        <div class="record-head-top">
+          <span class="badge badge-patent">专利 PATENT</span>
+          <span class="ident">专利 ID 68</span>
+          <span class="atype">ResearchPatent</span>
+        </div>
+        <h3 class="record-title">一种食物来源的高产生物被膜戊糖乳杆菌及其应用</h3>
+        <div class="pill-row"><span class="pill pill-vitro">体外实验</span><span class="pill pill-vivo">体内/临床实验</span><span class="pill pill-dry">生信分析</span></div>
+      </div>
+      <div class="field field-chips"><span class="field-label">涉及微生物 (28)</span><span class="field-value chip-row"><span class="microbe-chip cat-probiotic" title="益生菌 · Strain">Lactobacillus pentosus p15-c</span><span class="microbe-chip cat-probiotic" title="益生菌 · Species">Lactobacillus pentosus</span><span class="microbe-chip cat-probiotic" title="益生菌 · Genus">Lactobacillus</span><span class="microbe-chip cat-probiotic" title="益生菌 · Strain">Lactobacillus pentosus h8-c</span><span class="microbe-chip cat-probiotic" title="益生菌 · Species">Lactiplantibacillus coryniformis</span><span class="microbe-chip cat-probiotic" title="益生菌 · Species">Lactiplantibacillus parafarraginis</span><span class="microbe-chip cat-probiotic" title="益生菌 · Species">Lactiplantibacillus rossiae</span><span class="microbe-chip cat-probiotic" title="益生菌 · Species">Lactobacillus casei</span><span class="microbe-chip cat-probiotic" title="益生菌 · Species">Lactiplantibacillus harbinensis</span><span class="microbe-chip cat-probiotic" title="益生菌 · Species">Limosilactobacillus brevis</span><span class="microbe-chip cat-probiotic" title="益生菌 · Species">Lactobacillus reuteri</span><span class="microbe-chip cat-probiotic" title="益生菌 · Species">Lactobacillus fermentum</span><span class="microbe-chip cat-probiotic" title="益生菌 · Species">Lactobacillus rhamnosus</span><span class="microbe-chip cat-probiotic" title="益生菌 · Species">Lactiplantibacillus plantarum</span><span class="microbe-chip more-chip">+14</span></span></div>
+      <div class="record-body">
+        <div class="col">
+          <h4 class="col-title">湿实验 wet_experiments</h4>
+          <div class="subblock"><h4>体外实验 <span class="tag tag-vitro">in vitro</span></h4><div class="field"><span class="field-label">菌株复苏</span><span class="field-value">划线接种于MRS琼脂平板上，30℃培养48小时获得纯单菌落</span></div><div class="field"><span class="field-label">培养条件</span><span class="field-value">MRS液体培养基、BHI培养基、AOAC培养基，30℃培养18-72小时</span></div><div class="field"><span class="field-label">菌液浓度标定</span><span class="field-value">6000 rpm离心5分钟，弃上清后用无菌水重悬，调整菌液浓度至OD600 nm=0.4-0.5</span></div><div class="field"><span class="field-label">处理方式</span><span class="field-value">不同温度（30-55℃）和pH（1.5-5.5）条件下培养24小时；牛津杯琼脂扩散法测定抗菌活性</span></div><div class="field"><span class="field-label">检测方法</span><span class="field-value">结晶紫染色法测定OD595nm值评估生物被膜形成能力；酶标仪测定OD600nm值评估生长情况；游标卡尺测量抑菌圈直径</span></div><div class="field"><span class="field-label">分组设计</span><span class="field-value">70株乳酸菌分别在三种培养基中培养；不同温度和pH条件测试；对照组为pH调节后的MRS培养基</span></div></div><div class="subblock"><h4>体内动物/临床实验 <span class="tag tag-vivo">in vivo</span></h4><div class="field"><span class="field-label">物种</span><span class="field-value">小鸡</span></div><div class="field"><span class="field-label">品系</span><span class="field-value">SPF雏鸡</span></div><div class="field"><span class="field-label">给药途径</span><span class="field-value">灌胃，每天饲喂20 mL浓度为10^8 CFU/mL的乳酸菌培养液，连续3天</span></div><div class="field"><span class="field-label">剂量</span><span class="field-value">10^8 CFU/mL，每天20 mL</span></div><div class="field"><span class="field-label">剂型</span><span class="field-value">菌液</span></div><div class="field field-chips"><span class="field-label">取材类型</span><span class="field-value chip-row"><span class="chip">粪便</span></span></div><div class="field"><span class="field-label">处理方式</span><span class="field-value">分两组分别饲喂h8-c和p15-c菌株，给菌期3天，恢复期21天</span></div><div class="field"><span class="field-label">检测方法</span><span class="field-value">16S rRNA基因V3-V4区测序分析细菌群落、V4-V5区测序分析古菌群落、ITS1测序分析真菌群落</span></div><div class="field"><span class="field-label">分组设计</span><span class="field-value">两组（每组n=25），分别饲喂h8-c和p15-c；五个时间点采样（D0给药前、D3给药结束、R7/R14/R21恢复期第7/14/21天）</span></div></div>
+        </div>
+        <div class="col">
+          <h4 class="col-title">干实验 dry_experiment</h4>
+          <div class="subblock"><h4>干实验 / 生信分析 <span class="tag tag-dry">dry lab</span></h4><div class="field field-chips"><span class="field-label">测序类型</span><span class="field-value chip-row"><span class="chip">16S rRNA测序</span><span class="chip">ITS测序</span></span></div><div class="field"><span class="field-label">测序平台</span><span class="field-value">Illumina MiSeq</span></div><div class="field"><span class="field-label">平台详情</span><span class="field-value">Illumina MiSeq测序仪配合MiSeq试剂盒V3（600个循环）</span></div><div class="field"><span class="field-label">测序区域</span><span class="field-value">V3-V4</span></div><div class="field"><span class="field-label">引物</span><span class="field-value">338F（5&#x27;-ACTCCTACGGGAGGCAGCA-3&#x27;）和806R（5&#x27;-GGACTACHVGGGTWTCTAAT-3&#x27;）；524F（5&#x27;-TGYCAGCCGCCGCGGTAA-3&#x27;）和958R（5&#x27;-YCCGGCGTTGAVTCCAATT-3&#x27;）；ITS5F（5&#x27;-GGAAGTAAAAGTCGTAACAAGG-3&#x27;）和ITS2R（5&#x27;-GCTGCGTTCTTCATCGATGC-3&#x27;）</span></div><div class="field"><span class="field-label">测序模式</span><span class="field-value">双端测序（PE）</span></div><div class="field field-chips"><span class="field-label">样本类型</span><span class="field-value chip-row"><span class="chip">粪便</span></span></div></div><div class="subblock"><h4>分析流程用到的具体工具/算法/数据库 <span class="count-badge">9 条</span></h4><div class="steps-wrap">
+      <table class="steps-table">
+        <thead><tr><th>分析阶段</th><th>类别</th><th>工具 / 算法 / 数据库名称</th></tr></thead>
+        <tbody><tr>
+          <td class="stage-cell">质控</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">QIIME</td>
+        </tr><tr>
+          <td class="stage-cell">质控</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">USEARCH</td>
+        </tr><tr>
+          <td class="stage-cell">物种注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">Greengenes</td>
+        </tr><tr>
+          <td class="stage-cell">物种注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">UNITE</td>
+        </tr><tr>
+          <td class="stage-cell">物种注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">NCBI GenBank</td>
+        </tr><tr>
+          <td class="stage-cell">多样性分析</td>
+          <td><span class="kind-pill kind-Software">软件</span></td>
+          <td class="tool-name">R</td>
+        </tr><tr>
+          <td class="stage-cell">多样性分析</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">pheatmap</td>
+        </tr><tr>
+          <td class="stage-cell">多样性分析</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">Mothur</td>
+        </tr><tr>
+          <td class="stage-cell">多样性分析</td>
+          <td><span class="kind-pill kind-Software">软件</span></td>
+          <td class="tool-name">Cytoscape</td>
+        </tr></tbody>
+      </table>
+    </div></div>
+        </div>
+      </div>
+      <details class="findings-details">
+        <summary>结论关联 findings（10 条）</summary>
+        <ul class="findings"><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Lactobacillus pentosus p15-c</strong> — p15-c在雏鸡肠道中定殖后乳杆菌属丰度显著提升至99%并维持高水平
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Lactobacillus pentosus p15-c</strong> — p15-c富集纤维降解菌群如瘤胃球菌科和Oscillospira
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Lactobacillus pentosus p15-c</strong> — p15-c促进纤维降解菌发酵产生短链脂肪酸
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Lactobacillus pentosus p15-c</strong> — p15-c提高广古菌门丰度并富集乙酸裂解型产甲烷菌
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Lactobacillus pentosus p15-c</strong> — p15-c在补充期间短暂富集赤霉属真菌
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Lactobacillus pentosus p15-c</strong> — p15-c抑制金黄色葡萄球菌、枯草芽孢杆菌、PAK、大肠杆菌和志贺氏菌
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Lactobacillus pentosus p15-c</strong> — p15-c通过产生乳酸、过氧化氢、细菌素等代谢产物介导抑菌
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-reg">⇄ 调节</span>
+          <span class="finding-body"><strong>Lactobacillus</strong> — 乳杆菌定殖维持肠道屏障完整性并调节免疫反应
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Prevotella</strong> — 普雷沃氏菌丰度升高与Th17介导免疫反应和炎症性疾病相关
+          <span class="finding-ev">Review</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-reg">⇄ 调节</span>
+          <span class="finding-body"><strong>Lactobacillus pentosus p15-c</strong> — p15-c通过促进纤维降解微生物提升代谢多样性维持肠道稳态
+          <span class="finding-ev">Experiment</span></span>
+        </li></ul>
+      </details>
+    </article>
+    <article class="record" id="patent-20">
+      <div class="record-head">
+        <div class="record-head-top">
+          <span class="badge badge-patent">专利 PATENT</span>
+          <span class="ident">专利 ID 20</span>
+          <span class="atype">ResearchPatent</span>
+        </div>
+        <h3 class="record-title">一株高效利用3&#x27;-唾液酸乳糖的普通拟杆菌及其改善肠道健康的应用</h3>
+        <div class="pill-row"><span class="pill pill-vitro">体外实验</span><span class="pill pill-vivo">体内/临床实验</span><span class="pill pill-dry">生信分析</span></div>
+      </div>
+      <div class="field field-chips"><span class="field-label">涉及微生物 (2)</span><span class="field-value chip-row"><span class="microbe-chip cat-candidate" title="候选益生菌 · Strain">Phocaeicola vulgatus N059</span><span class="microbe-chip cat-candidate" title="候选益生菌 · Species">Phocaeicola vulgatus</span></span></div>
+      <div class="record-body">
+        <div class="col">
+          <h4 class="col-title">湿实验 wet_experiments</h4>
+          <div class="subblock"><h4>体外实验 <span class="tag tag-vitro">in vitro</span></h4><div class="field"><span class="field-label">菌株复苏</span><span class="field-value">从-80℃甘油管挑取一环菌液于KVLB平板划线活化，37℃厌氧培养48h，挑取单菌落接种于KVLB液体培养基过夜培养</span></div><div class="field"><span class="field-label">培养条件</span><span class="field-value">37℃厌氧培养，KVLB培养基；碳源利用评价用无碳源培养基(DC)分别添加无菌水/葡萄糖/3&#x27;-SL</span></div><div class="field"><span class="field-label">菌液浓度标定</span><span class="field-value">酶标仪检测OD600nm吸光度值</span></div><div class="field"><span class="field-label">处理方式</span><span class="field-value">菌液按1%(v/v)接种于DC+无菌水、DC+葡萄糖(10%)、DC+3&#x27;-SL(10%)培养基</span></div><div class="field"><span class="field-label">检测方法</span><span class="field-value">OD600生长曲线测定、TLC薄层色谱分析代谢产物动态变化、厌氧肉汤微量稀释法测定MIC</span></div><div class="field"><span class="field-label">分组设计</span><span class="field-value">DC+H2O阴性对照/DC+葡萄糖阳性对照/DC+3&#x27;-SL</span></div></div><div class="subblock"><h4>体内动物/临床实验 <span class="tag tag-vivo">in vivo</span></h4><div class="field"><span class="field-label">物种</span><span class="field-value">小鼠</span></div><div class="field"><span class="field-label">品系</span><span class="field-value">C57BL/6雄性小鼠(6-8周龄,18-20g)</span></div><div class="field"><span class="field-label">造模方式（药物）</span><span class="field-value">饮用2.5% DSS溶液诱导结肠炎(第7-14天)</span></div><div class="field"><span class="field-label">给药途径</span><span class="field-value">灌胃</span></div><div class="field"><span class="field-label">剂量</span><span class="field-value">N059活菌液200μL(108-109CFU/mL);3&#x27;-SL 200μL(5%)</span></div><div class="field"><span class="field-label">剂型</span><span class="field-value">活菌菌悬液/合生元</span></div><div class="field field-chips"><span class="field-label">取材类型</span><span class="field-value chip-row"><span class="chip">血液</span><span class="chip">组织</span></span></div><div class="field"><span class="field-label">处理方式</span><span class="field-value">每天灌胃N059活菌液和/或3&#x27;-SL溶液</span></div><div class="field"><span class="field-label">检测方法</span><span class="field-value">记录体重变化率、采食量、饮水量;测量结肠长度;HE染色观察结肠黏膜;疾病活动指数(DAI)评分;qPCR检测血清炎症因子(TNF-α、IL-6、IL-1β)及结肠紧密连接蛋白(Claudin-1、Occludin、ZO-1)表达</span></div><div class="field"><span class="field-label">分组设计</span><span class="field-value">对照组/DSS组/DSS+N059组/DSS+3&#x27;-SL组/DSS+N059+3&#x27;-SL(合生元)组</span></div></div>
+        </div>
+        <div class="col">
+          <h4 class="col-title">干实验 dry_experiment</h4>
+          <div class="subblock"><h4>干实验 / 生信分析 <span class="tag tag-dry">dry lab</span></h4><div class="field field-chips"><span class="field-label">测序类型</span><span class="field-value chip-row"><span class="chip">全基因组测序</span><span class="chip">16S rRNA测序</span></span></div><div class="field"><span class="field-label">测序平台</span><span class="field-value">Illumina HiSeq</span></div><div class="field"><span class="field-label">平台详情</span><span class="field-value">Illumina Hiseq X Ten</span></div><div class="field"><span class="field-label">测序区域</span><span class="field-value">全长</span></div><div class="field"><span class="field-label">引物</span><span class="field-value">27F(5&#x27;-AGAGTTTGATCCTGGCTCAG-3&#x27;)/1492R(5&#x27;-GGTTACCTTGTTACGACTT-3&#x27;)</span></div><div class="field"><span class="field-label">读长</span><span class="field-value">2×150 bp</span></div><div class="field"><span class="field-label">测序模式</span><span class="field-value">双端测序（PE）</span></div></div><div class="subblock"><h4>分析流程用到的具体工具/算法/数据库 <span class="count-badge">5 条</span></h4><div class="steps-wrap">
+      <table class="steps-table">
+        <thead><tr><th>分析阶段</th><th>类别</th><th>工具 / 算法 / 数据库名称</th></tr></thead>
+        <tbody><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">VFDB</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">CARD</td>
+        </tr><tr>
+          <td class="stage-cell">功能注释</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">rgi</td>
+        </tr><tr>
+          <td class="stage-cell">物种注释</td>
+          <td><span class="kind-pill kind-BioinformaticsTool">工具</span></td>
+          <td class="tool-name">BLAST</td>
+        </tr><tr>
+          <td class="stage-cell">物种注释</td>
+          <td><span class="kind-pill kind-Database">数据库</span></td>
+          <td class="tool-name">GenBank</td>
+        </tr></tbody>
+      </table>
+    </div></div>
+        </div>
+      </div>
+      <details class="findings-details">
+        <summary>结论关联 findings（8 条）</summary>
+        <ul class="findings"><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Phocaeicola vulgatus N059</strong> — N059可高效特异代谢3&#x27;-SL,24h内降解生成唾液酸和乳糖(TLC验证)
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Phocaeicola vulgatus N059</strong> — N059与3&#x27;-SL合生元缓解DSS诱导小鼠结肠炎,逆转体重下降和结肠缩短,合生元效果优于单菌
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Phocaeicola vulgatus N059</strong> — 合生元(N059+3&#x27;-SL)降低血清促炎因子TNF-α水平,减轻肠道炎症
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Phocaeicola vulgatus N059</strong> — 合生元(N059+3&#x27;-SL)降低血清IL-6水平
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-down">↓ 降低/抑制</span>
+          <span class="finding-body"><strong>Phocaeicola vulgatus N059</strong> — 合生元(N059+3&#x27;-SL)降低血清IL-1β水平
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Phocaeicola vulgatus N059</strong> — 合生元逆转DSS对紧密连接蛋白Claudin-1的抑制,增强肠道屏障
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Phocaeicola vulgatus N059</strong> — 合生元逆转DSS对Occludin表达的抑制
+          <span class="finding-ev">Experiment</span></span>
+        </li><li class="finding">
+          <span class="finding-dir dir-up">↑ 升高/促进</span>
+          <span class="finding-body"><strong>Phocaeicola vulgatus N059</strong> — 合生元逆转DSS对ZO-1表达的抑制
+          <span class="finding-ev">Experiment</span></span>
+        </li></ul>
+      </details>
+    </article>
+  </main>
+
+  <footer class="page-footer">
+    <p>数据来源：<code>extraction_test_if10_100/papers_extracted.jsonl</code> 与 <code>patents_extracted.jsonl</code>（新目录，未写入正式产线文件）。字段结构对应本体中的 <code>InVitroExperiment</code> / <code>InVivoAnimalExperiment</code> / <code>BioinformaticsAnalysis</code> 类。</p>
+  </footer>
+</div>
